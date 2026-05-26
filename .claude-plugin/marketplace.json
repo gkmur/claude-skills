@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "gkmur-skills",
+  "description": "Gabriel Murray's personal Claude skills marketplace",
+  "owner": {
+    "name": "Gabriel Murray",
+    "url": "https://gkmur.com"
+  },
+  "plugins": [
+    {
+      "name": "pretext-typography",
+      "source": "./plugins/pretext-typography",
+      "description": "Advanced web typography via @chenglou/pretext — drop caps, pull quotes, image flow-around, canvas/SVG text. Use when typography needs to flow around obstacles or do anything CSS can't.",
+      "category": "design",
+      "keywords": ["typography", "design", "pretext", "drop-cap", "pull-quote", "text-layout"]
+    }
+  ]
+}
