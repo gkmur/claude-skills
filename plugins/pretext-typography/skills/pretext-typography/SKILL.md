@@ -1,48 +1,82 @@
 ---
 name: pretext-typography
 description: >
-  Apply @chenglou/pretext for advanced web typography that CSS can't do —
-  drop caps with margin protrusion, center-floated pull quotes, image
-  flow-around wraps, multi-slot per-line layouts, canvas/SVG text rendering,
-  and reflow-free measurement. Use when the user wants typography that
-  flows around obstacles, asks for "book-quality" text, or needs precise
-  programmatic line-break control. Do NOT use for plain body text — browser
-  native rendering is equivalent and faster for that case.
+  Apply @chenglou/pretext when you need text measurement WITHOUT DOM reflow —
+  predicting heights for virtualized lists, streaming LLM token rendering,
+  shrinkwrap chat bubbles — or layouts CSS can't do (drop caps protruding
+  into margins, center-floated pull quotes, image flow-around, canvas/SVG/
+  WebGL text). Use also when you need programmatic line breaks for animation
+  or cross-browser line-break consistency. Do NOT use for plain body text —
+  browser native is equivalent quality and faster, and `text-wrap: pretty`
+  ships in all modern browsers for free line balancing.
 ---
 
 # Pretext Typography
 
-`@chenglou/pretext` is a canvas-measured layout engine. It does NOT replace
-browser text rendering for ordinary prose. Use it where CSS hits a wall.
+`@chenglou/pretext` is a **text measurement engine that avoids DOM reflow**,
+not a typography enhancement layer. Built by Cheng Lou at Midjourney to handle
+streaming LLM tokens at 120fps without reflow storms. The drop-cap and
+flow-around-dragon demos are flashy but, as Den Odell put it, "the wrong demo"
+— the real point is virtualization and reflow-heavy UI.
+
+Use it where browser layout cost is the bottleneck, or where CSS hits a wall.
 
 ## When to invoke
 
+**Primary use cases (real production wins):**
+- Virtualized lists / infinite scroll — predict heights of thousands of
+  variable-content items without rendering (pairs with React Virtuoso,
+  TanStack Virtual)
+- Streaming chat / LLM token rendering — measure incoming text without
+  triggering reflow on every token
+- Shrinkwrap bubbles / dynamic-width containers — compute tightest-fit
+  width before paint
+
+**Secondary use cases (CSS can't do):**
 - Drop cap that protrudes into the margin (left-side obstacle)
 - Pull quote floated in the center of a paragraph (two-slot per line)
 - Text wrapping around an irregular shape or floated image
 - Canvas / SVG / WebGL text rendering
-- Need to measure text height/width WITHOUT triggering DOM reflow
-- Need to read line breaks programmatically (e.g. for animation)
-- Need consistent line breaks across browsers
-- Mixed-bidi / non-Latin script layout
+- Programmatic line breaks for per-line animation (stagger, reveal, morph)
+- Cross-browser line-break consistency for design QA
+- Mixed-bidi / non-Latin script layout with obstacle math
 
 ## When NOT to invoke
 
-- Plain left-aligned body paragraphs (browser native = same result)
+- Plain left-aligned body paragraphs — browser native = same result, faster.
+  Reach for `text-wrap: pretty` (Chrome/Safari/Firefox 2024+) first for line
+  balancing. Zero JS, zero a11y risk.
 - Headings, buttons, nav items, code blocks
 - Anything under 2 lines
-- Justified text expecting tighter spacing (Pretext is greedy too — no
-  Knuth-Plass yet as of v0.0.7)
-- Hyphenation (not in Pretext)
+- Static labels that never change (prepare cost dominates)
+- Text that changes every frame (prepare cost dominates — Cheng Lou flags
+  this explicitly)
+- ASCII-only Latin lists where uWrap.js is sufficient (~27x faster for
+  that narrow case; Pretext's overhead is Unicode/emoji/bidi correctness)
+- Hyphenation (not in Pretext — use `hyphens: auto` in CSS)
 
 ## Library facts
 
-- Greedy line-breaking (same algorithm as the browser)
-- Canvas-based measurement (no DOM reflow per layout)
+- Two-phase: `prepare()` does one-time Canvas glyph measurement (~20ms);
+  `layout()` is pure arithmetic on cached widths (~0.0002ms)
+- Greedy line-breaking by default; recent versions ship a working Knuth-Plass
+  mode — check `npm view @chenglou/pretext` for current API surface
 - Returns `{ text, width, start, end }` per line — enables obstacle math
-- All scripts + emoji + mixed-bidi supported
+- All scripts + emoji + mixed-bidi supported (this is the cost vs uWrap.js)
 - ~47KB raw bundle (loads dynamically — not in initial JS)
 - Latest version: check `npm view @chenglou/pretext version` before scaffolding
+
+## Known limitations
+
+- `system-ui` on macOS has accuracy issues per the README — pin a real font
+- No `font-feature-settings`, `font-variation-settings`, or
+  `font-optical-sizing` support
+- Myanmar and some CJK proportional fonts flagged unresolved in upstream
+  RESEARCH.md
+- Reports of Firefox/Linux and Safari rendering drift — QA on real browsers,
+  not just Chrome
+- If you render to canvas/WebGL instead of DOM, you lose screen readers,
+  find-in-page, and selection — DOM virtualization is the safer pattern
 
 ## Core API
 
@@ -109,12 +143,30 @@ layout on mobile.
 
 ## Patterns
 
+### Virtualized list height prediction (primary win)
+
+For a virtualized list of variable-content items (chat messages, feed
+cards, search results), call `prepareWithSegments` once per item text +
+the column width, then `layoutNextLine` in a loop to count lines. Multiply
+by line-height to get exact pixel height — no off-screen render, no
+reflow. Pipe the heights into React Virtuoso, TanStack Virtual, or your
+own absolute-positioned scroller.
+
+Cache prepared text aggressively; this is where the perf win compounds.
+
+### Streaming text without reflow
+
+For streaming LLM tokens or live transcripts, measure the incoming chunk
+with Pretext to know its final line count before painting. Avoids the
+reflow storm of appending text node + reading `offsetHeight` per token.
+
 ### Justified column (NO visible win, foundation only)
 
 For plain unjustified prose, native CSS is identical. Only build this if
 you need a foundation that downstream obstacle patterns extend. Replace
 `element.textContent = lines.join('\n')` and set
-`white-space: pre-line`.
+`white-space: pre-line`. For pure line balancing on plain prose, prefer
+`text-wrap: pretty` — zero JS, no a11y risk.
 
 ### Drop cap (left obstacle)
 
@@ -140,9 +192,8 @@ band use slot `[0, imageLeft]`. Below the image, full width.
 
 ### Reading flashlight (research/lab only)
 
-Track cursor Y. Line nearest cursor gets re-laid at higher quality.
-With greedy-only Pretext, this is essentially decorative — wait for
-upstream Knuth-Plass to make this meaningful.
+Track cursor Y. Line nearest cursor gets re-laid at higher quality
+(Knuth-Plass mode if available in the installed version).
 
 ## Performance budget
 
@@ -171,14 +222,33 @@ Before shipping any Pretext-driven section:
 - `src/components/ProjectHero.astro` — drop cap component
 - `src/scripts/text-river.ts` — obstacle wrap example (cursor trail)
 
+## Wider ecosystem (reference)
+
+- Production: Midjourney (streaming token reflow), Creative Tim
+  shadcn/ui editorial blocks
+- Native ports: `swift-pretextkit` (Apple platforms), `expo-pretext`
+  (React Native)
+- Creative: chenglou.me/pretext demos (text wrapping around 3D objects,
+  Bad Apple in reflowing text, ASCII camera modes)
+- Critical reading: Den Odell, "You're looking at the wrong Pretext demo"
+  — argues DOM virtualization is the real point, not the canvas demos
+
 ## Anti-patterns
 
 - Wrapping every paragraph site-wide. Cost > benefit for plain prose.
-- Using `quality: 'knuth-plass'` — accepted but no-op until upstream ships it.
+  Use `text-wrap: pretty` for line balancing instead.
+- Using Pretext to make body text "mold to viewports" — that's what
+  CSS already does. Pretext does not improve viewport reflow quality
+  for plain HTML paragraphs.
+- Rendering text to canvas/WebGL for an article page — loses screen
+  readers, find-in-page, and selection. DOM virtualization is the
+  safer pattern unless you genuinely need WebGL.
 - Skipping the sr-only mirror. Breaks screen readers.
 - Skipping the mobile mode-switch. Breaks narrow viewports.
 - Importing Pretext statically. Bloats initial bundle.
 - Re-laying out on every animation frame. Use ResizeObserver + RAF gate.
+- Using Pretext for ASCII-only Latin text where uWrap.js suffices and
+  is ~27x faster.
 
 ## Library version policy
 
