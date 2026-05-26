@@ -13,6 +13,13 @@
       "description": "Advanced web typography via @chenglou/pretext — drop caps, pull quotes, image flow-around, canvas/SVG text. Use when typography needs to flow around obstacles or do anything CSS can't.",
       "category": "design",
       "keywords": ["typography", "design", "pretext", "drop-cap", "pull-quote", "text-layout"]
+    },
+    {
+      "name": "moodboard",
+      "source": "./plugins/moodboard",
+      "description": "Pull visual inspiration from a local Pinterest mirror into a design brief. Curates 3 pin candidates with thumbnail previews, then extracts design DNA (palette, type, texture, composition, motion) into MOODBOARD.md as input for design-consultation, frontend-design, or design-shotgun. Local-only: depends on ~/wiki/pinterest/ and the qmd MCP.",
+      "category": "design",
+      "keywords": ["design", "moodboard", "pinterest", "inspiration", "design-brief", "taste", "visual-reference"]
     }
   ]
 }

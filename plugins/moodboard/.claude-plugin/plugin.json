@@ -1,0 +1,12 @@
+{
+  "name": "moodboard",
+  "description": "Pull visual inspiration from a local Pinterest mirror into a design brief. Queries a qmd-indexed pin shadow, surfaces 3 curated candidates with thumbnail previews, lets you pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion) and writes MOODBOARD.md as input for design-consultation, frontend-design, or design-shotgun. Local-only — depends on ~/wiki/pinterest/ and the qmd MCP.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Gabriel Murray",
+    "url": "https://gkmur.com"
+  },
+  "license": "MIT",
+  "keywords": ["design", "moodboard", "pinterest", "inspiration", "design-brief", "taste", "visual-reference"],
+  "skills": ["./skills/moodboard"]
+}
