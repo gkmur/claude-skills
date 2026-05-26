@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "gkmur-skills",
+  "name": "gkmur",
   "description": "Gabriel Murray's personal Claude skills marketplace",
   "owner": {
     "name": "Gabriel Murray",
