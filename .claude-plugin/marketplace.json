@@ -20,6 +20,13 @@
       "description": "Pull visual inspiration from a local Pinterest mirror into a design brief. Curates 3 pin candidates with thumbnail previews, then extracts design DNA (palette, type, texture, composition, motion) into MOODBOARD.md as input for design-consultation, frontend-design, or design-shotgun. Local-only: depends on ~/wiki/pinterest/ and the qmd MCP.",
       "category": "design",
       "keywords": ["design", "moodboard", "pinterest", "inspiration", "design-brief", "taste", "visual-reference"]
+    },
+    {
+      "name": "session-state",
+      "source": "./plugins/session-state",
+      "description": "Session continuity: the wrap-up skill writes a worktree-safe .claude/STATE.md whiteboard so the next session answers 'where were we?'. Pairs with the SessionStart auto-load hook.",
+      "category": "productivity",
+      "keywords": ["session", "memory", "continuity", "state", "wrap-up", "handoff"]
     }
   ]
 }
