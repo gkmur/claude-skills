@@ -17,7 +17,7 @@
     {
       "name": "moodboard",
       "source": "./plugins/moodboard",
-      "description": "Pull visual inspiration from a local Pinterest mirror into a design brief. Curates 3 pin candidates with thumbnail previews, then extracts design DNA (palette, type, texture, composition, motion) into MOODBOARD.md as input for design-consultation, frontend-design, or design-shotgun. Local-only: depends on ~/wiki/pinterest/ and the qmd MCP.",
+      "description": "Turn a curated Pinterest mirror into a portable design brief. Curates 3 cross-board pin candidates with thumbnail previews, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) into a tool-agnostic MOODBOARD.md (with W3C-shaped tokens) as input for design-consultation, design-shotgun, frontend builders, or image-gen. Local-only: depends on ~/wiki/pinterest/ and the wiki MCP.",
       "category": "design",
       "keywords": ["design", "moodboard", "pinterest", "inspiration", "design-brief", "taste", "visual-reference"]
     },

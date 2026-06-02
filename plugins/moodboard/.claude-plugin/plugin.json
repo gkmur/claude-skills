@@ -1,7 +1,7 @@
 {
   "name": "moodboard",
-  "description": "Pull visual inspiration from a local Pinterest mirror into a design brief. Queries a qmd-indexed pin shadow, surfaces 3 curated candidates with thumbnail previews, lets you pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion) and writes MOODBOARD.md as input for design-consultation, frontend-design, or design-shotgun. Local-only — depends on ~/wiki/pinterest/ and the qmd MCP.",
-  "version": "0.1.0",
+  "description": "Turn a curated Pinterest mirror into a portable design brief. Semantic-searches a wiki-MCP-indexed pin shadow across all boards, surfaces 3 candidates with thumbnail previews, lets you pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) and writes a tool-agnostic MOODBOARD.md (with W3C-shaped tokens) for design-consultation, design-shotgun, frontend builders, or image-gen. The brief is the durable artifact. Local-only - depends on ~/wiki/pinterest/ and the wiki MCP.",
+  "version": "0.2.0",
   "author": {
     "name": "Gabriel Murray",
     "url": "https://gkmur.com"
