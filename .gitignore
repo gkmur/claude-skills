@@ -1,0 +1,8 @@
+# Session whiteboard - local only, read by the SessionStart hook. Never pushed.
+.claude/STATE.md
+
+# Skill eval/benchmark output - local only
+rubin-workspace/
+
+# Generated onboarding doc (placeholders + personal stats)
+ONBOARDING.md

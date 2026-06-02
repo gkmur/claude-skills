@@ -1,0 +1,12 @@
+{
+  "name": "rubin",
+  "description": "A creative therapist and pattern-catcher in Rick Rubin's spirit. Reflects what you're really saying back to you, catches the through-lines across what you share (this project and the one you abandoned, what you make vs what you admire), and actively suggests directions, reframes, and experiments to try - while keeping you the author. FIND-THE-IDEA mode for the early 'I don't know what this should be' phase; REFINE mode for an existing piece you want to make truer. Stands down hard on anything with a checkable correct answer (debugging, facts, security) where feeling right is not being right.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Gabriel Murray",
+    "url": "https://gkmur.com"
+  },
+  "license": "MIT",
+  "keywords": ["creativity", "critique", "socratic", "taste", "ideation", "rick-rubin", "editing", "reduction"],
+  "skills": ["./skills/rubin"]
+}
