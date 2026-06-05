@@ -1,6 +1,6 @@
 ---
 name: moodboard
-description: Turn Gabe's curated visual taste into a portable design brief. Semantic-searches his Pinterest mirror (the qmd/gbrain-indexed shadow at ~/wiki/pinterest/, served by the wiki MCP), surfaces 3 cross-board candidates with thumbnail previews, lets him pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) and writes MOODBOARD.md - a tool-agnostic brief that feeds /design-consultation, /design-shotgun, frontend builders, or image-gen. The brief is the durable artifact; generation is downstream. Use when starting UI/brand work and you want the aesthetic grounded in saved taste, not generic AI defaults. Trigger phrases - "pull moodboard inspo", "moodboard for X", "find inspo for", "what does my taste say about X".
+description: Turn Gabe's saved visual taste into a portable design brief before any design or build work. Semantic-searches his Pinterest mirror (saved pins/boards indexed in the wiki MCP), surfaces 3 cross-board candidates as thumbnail previews, lets him pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) and writes MOODBOARD.md - a tool-agnostic brief. Use when the user is kicking off UI/brand/landing/component/deck work and wants the aesthetic grounded in his own saved references instead of generic AI defaults, OR asks to pull inspiration from his boards/Pinterest, OR asks what his taste says about a direction. Trigger phrases - "moodboard for X", "pull moodboard inspo", "find inspo for X", "pull inspo from my boards", "inspiration from my Pinterest", "what does my taste say about X", "design brief grounded in my saved taste", "ground the aesthetic in stuff I've saved". NOT for - generating/comparing design variants (use design-shotgun), proposing a color/type system or full design system (use design-consultation), critiquing or reviewing an existing design (use critique/design-review), or generating brand-guidelines images (use brandkit). This produces the brief those tools consume; it does not design, generate, or review.
 allowed-tools:
   - Bash
   - Read
@@ -97,17 +97,17 @@ AskUserQuestion with 4 options, `multiSelect: true`. Each pin option uses `previ
 - Dominant color hex
 - Role + one-line why (anchor / composition / detail)
 
-4th option: **"Show me different ones"** - re-query with a tweak (ask what to adjust: more X, less Y, a specific board). Loop up to 3 times before suggesting the user refine the vibe input. Gabe is the taste-maker; never auto-finalize the picks.
+4th option: **"Show me different ones"** - re-query with a tweak (ask what to adjust: more X, less Y, a specific board). Loop up to 3 times before suggesting the user refine the vibe input. Track pins already shown or rejected and exclude them from re-presentation; if a re-query surfaces nothing the user hasn't already seen, stop early and say the corpus has no further matches for this vibe rather than re-showing the same set. Gabe is the taste-maker; never auto-finalize the picks.
 
 ## Step 5 - Extract DNA
 
 From the selected pins. Deterministic parts run as code; subjective parts stay model-inferred (do not fake them with a script).
 
-- **Palette (scripted)** - collect the dominant hex of each selected pin (already in the parsed block; read a thumb only if a pin lacks one), then run the script to get roled colors + the portable token block:
+- **Palette (scripted)** - collect the dominant hex of each selected pin (one hex per selected pin, typically 3; already in the parsed block, read a thumb only if a pin lacks one), then run the script to get roled colors + the portable token block:
   ```bash
-  node scripts/build-palette.mjs "#hex1" "#hex2" "#hex3" "#hex4"
+  node scripts/build-palette.mjs "#hex1" "#hex2" "#hex3"
   ```
-  It assigns bg/surface/ink/accent by luminance + chroma and emits the W3C `tokens` object - paste both straight into the brief. Don't hand-roll the role assignment or the JSON.
+  It assigns bg/surface/ink/accent by luminance + chroma and emits the W3C `tokens` object - paste both straight into the brief. Don't hand-roll the role assignment or the JSON. The script returns only the roles the colors support - a monochrome board yields no `accent` (and sometimes no `surface`). That is correct: render only the roles it returned, never a placeholder or an invented hex. Sanity-check against the vibe too - if the brief asked for dark but `bg` came back light (or vice-versa), one outlier pin is skewing it: drop that hex and re-run, or swap the bg/ink roles. The script is mood-blind; you are not.
 - **Typographic feel** - inferred from caption keywords (editorial / monospaced / display serif / geometric sans). 1-2 *directions*, not specific fonts (that's design-consultation's job).
 - **Texture / materiality** - concrete, paper, glass, linen, raw metal, film grain.
 - **Composition** - symmetric/asymmetric, density, grid feel, negative space.
@@ -118,7 +118,7 @@ From the selected pins. Deterministic parts run as code; subjective parts stay m
 
 Copy `assets/moodboard.template.md` and fill it in - write the result as `MOODBOARD.md` to cwd. The template is the canonical shape (References -> Design DNA -> Tokens -> Next step); editing it changes every future brief. Keep it tool-agnostic so it feeds Claude, /design-consultation, v0/Lovable, or an image-gen --sref prompt equally.
 
-- Drop the `roles` and `tokens` from `build-palette.mjs` (step 5) straight into the Palette and Tokens sections - the machine-readable W3C token block is what pipes into Figma/CSS without a conversion step.
+- Drop the `roles` and `tokens` from `build-palette.mjs` (step 5) straight into the Palette and Tokens sections - the machine-readable W3C token block is what pipes into Figma/CSS without a conversion step. Render only the roles the script actually returned: if there's no `accent` or `surface`, remove that line from the Palette list and the matching key from the Tokens JSON. The brief must contain only data-derived colors, never a placeholder or invented hex.
 - Fill References from the 3 selected pins (anchor / composition / detail), Typography/Texture/Composition/Motion/Anti-patterns from the model-inferred DNA.
 
 ## Step 7 - STOP
@@ -134,13 +134,13 @@ The failure points that quietly wreck a brief. Add to this list whenever one bit
 - **Image->image isn't indexed yet.** `cross_modal: "image"` / `search_by_image` exist but the mirror's pins aren't multimodally embedded on gbrain - queries silently fall back to text. Don't promise visual-seed search; it returns text-ranked results (see Roadmap).
 - **Cross-gating by board kills recall.** Let semantic score rank across all boards; off-domain boards (anime, tattoos) naturally score low. Filtering to a board up front throws away cross-board picks, which are the best ones.
 - **If the vibe matches nothing, say so.** Suggest pinning references first. Don't fake it with off-brand picks - an honest "your boards don't cover this" beats a wrong brief.
+- **Too few distinct colors = monochrome board, not a bug.** If `build-palette.mjs` returns fewer than 3 roles (e.g. `bg == ink`, no `surface`/`accent`), the selected pins are too monochrome for a full palette. Either pick a pin with a contrasting accent, or note in the brief that the palette is intentionally monochrome and leave the missing roles unset - never duplicate a hex to fill a slot.
 - **Mirror missing != broken.** It's built on the Mac mini and synced via git. Tell the user to pull the wiki; there is no local sync script on the MacBook to point at.
 
 ## Notes
 
 - **Cite pin URLs** - receipts. If a design ships well, it's traceable to the references that drove it.
 - **ASCII only, no emojis** in MOODBOARD.md.
-- Gabe is the taste-maker - never auto-finalize the picks; the curate loop in step 4 is the point.
 
 ## Roadmap (not yet wired)
 
