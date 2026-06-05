@@ -10,8 +10,12 @@ export const meta = {
 }
 
 // args = { skillPath: "/abs/path/to/skill-dir", model?: "...", trials?: number }
-const skillPath = (args && args.skillPath) || ''
-const TRIALS = (args && args.trials) || 5
+// Accept args as an object or a JSON-encoded string (some invocation paths stringify it).
+let A = args
+if (typeof A === 'string') { try { A = JSON.parse(A) } catch { A = {} } }
+A = A || {}
+const skillPath = A.skillPath || ''
+const TRIALS = A.trials || 5
 if (!skillPath) throw new Error('workflow requires args.skillPath (absolute path to the skill directory)')
 
 const FINDING = {
@@ -99,7 +103,7 @@ Return findings with lens="clarity". Evidence = the quoted line/section. propose
 // Run the 4 lenses in parallel; each lens that involves measurement repeats and self-dedups.
 const lensResults = await parallel(
   LENSES.map((l) => () =>
-    agent(l.prompt, { label: l.label, phase: 'Lenses', schema: FINDING, model: args && args.model })
+    agent(l.prompt, { label: l.label, phase: 'Lenses', schema: FINDING, model: A.model })
   )
 )
 
@@ -132,7 +136,7 @@ const verified = await parallel(
 Finding:
 ${JSON.stringify(f, null, 2)}
 Return keep, a one-line reason, adjusted_confidence (0..1), and the main risk.`,
-      { label: `verify:${f.id}`, phase: 'Verify', schema: VERDICT, model: args && args.model }
+      { label: `verify:${f.id}`, phase: 'Verify', schema: VERDICT, model: A.model }
     ).then((v) => ({ ...f, verdict: v }))
   )
 )
@@ -157,14 +161,58 @@ const kept = verified
     return (sev[b.severity] - sev[a.severity]) || (b.confidence - a.confidence)
   })
 
+// Merge near-duplicates: different lenses often surface the same underlying change
+// (e.g. an eval finding and a clarity finding that edit the same line). Without this,
+// the human gets grilled on the same change twice. One pass, only if there's >1 to compare.
+let proposal = kept
+if (kept.length > 1) {
+  const MERGED = {
+    type: 'object',
+    required: ['findings'],
+    properties: {
+      findings: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: ['id', 'title', 'lens', 'severity', 'evidence', 'proposed_change', 'confidence', 'risk', 'merged_from'],
+          properties: {
+            id: { type: 'string' },
+            title: { type: 'string' },
+            lens: { type: 'string', description: 'primary lens; use the highest-severity source if merged' },
+            severity: { type: 'string', enum: ['high', 'medium', 'low'] },
+            evidence: { type: 'string', description: 'combined evidence from all merged sources' },
+            proposed_change: { type: 'string', description: 'one unified edit covering all merged findings' },
+            confidence: { type: 'number' },
+            risk: { type: 'string', enum: ['none', 'behavior-change', 'overfit', 'bloat'] },
+            merged_from: { type: 'array', items: { type: 'string' }, description: 'ids that were folded in, including this one' },
+          },
+        },
+      },
+    },
+  }
+  const deduped = await agent(
+    `These are verified change proposals for the skill at ${skillPath}. Merge any that target the SAME underlying change (same lines, same root issue) into one unified finding — even across different lenses. Keep distinct changes separate. For each merged finding: take the highest severity/confidence of its sources, combine the evidence, write ONE proposed_change that covers all of them, and list every source id in merged_from. A finding with no duplicate keeps merged_from=[its own id]. Do not invent new findings or drop any change — every input id must appear in exactly one output merged_from.
+Findings:
+${JSON.stringify(kept, null, 2)}`,
+    { label: 'dedup', phase: 'Synthesize', schema: MERGED, model: A.model }
+  )
+  if (deduped && Array.isArray(deduped.findings) && deduped.findings.length) {
+    proposal = deduped.findings.sort((a, b) => {
+      const sev = { high: 3, medium: 2, low: 1 }
+      return (sev[b.severity] - sev[a.severity]) || (b.confidence - a.confidence)
+    })
+  }
+}
+
 return {
   skillPath,
   trials: TRIALS,
   counts: {
     raw: rawFindings.length,
     kept: kept.length,
+    merged: proposal.length,
     dropped: rawFindings.length - kept.length,
-    byLens: LENSES.reduce((acc, l) => ({ ...acc, [l.key]: kept.filter((f) => f.lens === l.key).length }), {}),
+    byLens: LENSES.reduce((acc, l) => ({ ...acc, [l.key]: proposal.filter((f) => f.lens === l.key).length }), {}),
   },
-  proposal: kept,
+  proposal,
 }
