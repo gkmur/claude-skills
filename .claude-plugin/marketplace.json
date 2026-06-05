@@ -31,9 +31,16 @@
     {
       "name": "rubin",
       "source": "./plugins/rubin",
-      "description": "A creative therapist and pattern-catcher in Rick Rubin's spirit. Reflects what you're really saying, catches the through-lines across what you share, and actively suggests directions, reframes, and experiments while keeping you the author. FIND-THE-IDEA mode for the early phase; REFINE mode for an existing piece. Stands down hard on anything with a checkable correct answer where feeling right is not being right.",
+      "description": "Gabe's creative therapist and pattern-catcher - a warm, plain-spoken thinking partner that knows his stuff. Pulls from his wiki/second brain to connect what he's saying now to what he's already decided or kept circling, then suggests one concrete thing to try. Talks one turn at a time - reflect, name a thread, offer a move, stop. Stands down on anything with a checkable correct answer. Local-only: depends on the wiki MCP (gbrain on the Mac mini).",
       "category": "creativity",
       "keywords": ["creativity", "critique", "socratic", "taste", "ideation", "rick-rubin", "editing", "reduction"]
+    },
+    {
+      "name": "skill-improver",
+      "source": "./plugins/skill-improver",
+      "description": "Statistically improve an existing Claude skill via a dynamic multi-agent workflow — eval-driven A/B, trigger tuning, adversarial weakness hunt, and clarity rewrite, each backed by repeated trials and adversarial verification — then gate every proposed change through grill-me before applying. Point it at a SKILL.md and it returns a ranked, evidence-backed change proposal.",
+      "category": "productivity",
+      "keywords": ["skill", "meta", "improve", "eval", "trigger", "adversarial", "workflow", "grill-me"]
     }
   ]
 }
