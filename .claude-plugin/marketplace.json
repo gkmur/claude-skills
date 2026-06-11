@@ -36,6 +36,13 @@
       "keywords": ["creativity", "critique", "socratic", "taste", "ideation", "rick-rubin", "editing", "reduction"]
     },
     {
+      "name": "writing-voice",
+      "source": "./plugins/writing-voice",
+      "description": "Write Slack messages in Gabe's actual voice. An evidence-backed style profile distilled from ~3,100 of his real sent Slack messages (2022-2026): lowercase default, burst messages, ask-first, warm and zero-corporate, with register shifts for peers vs reports vs leadership vs announcements. Use when drafting, rewriting, or replying to Slack on his behalf.",
+      "category": "productivity",
+      "keywords": ["voice", "writing", "slack", "style", "tone", "ghostwriting", "register"]
+    },
+    {
       "name": "skill-improver",
       "source": "./plugins/skill-improver",
       "description": "Statistically improve an existing Claude skill via a dynamic multi-agent workflow — eval-driven A/B, trigger tuning, adversarial weakness hunt, and clarity rewrite, each backed by repeated trials and adversarial verification — then gate every proposed change through grill-me before applying. Point it at a SKILL.md and it returns a ranked, evidence-backed change proposal.",

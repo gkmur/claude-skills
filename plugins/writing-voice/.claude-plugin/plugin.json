@@ -1,0 +1,12 @@
+{
+  "name": "writing-voice",
+  "description": "Write Slack messages in Gabe's actual voice. Evidence-backed style profile distilled from ~3,100 of his real sent messages (Sept 2022 - Jun 2026): lowercase default, burst messages, ask-first, warm and zero-corporate, with register shifts for peers vs reports vs leadership vs announcements. Use when drafting, rewriting, or replying to Slack on his behalf.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Gabriel Murray",
+    "url": "https://gkmur.com"
+  },
+  "license": "MIT",
+  "keywords": ["voice", "writing", "slack", "style", "tone", "ghostwriting", "register"],
+  "skills": ["./skills/writing-voice"]
+}
