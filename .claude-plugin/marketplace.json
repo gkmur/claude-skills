@@ -38,9 +38,9 @@
     {
       "name": "writing-voice",
       "source": "./plugins/writing-voice",
-      "description": "Write Slack messages in Gabe's actual voice. An evidence-backed style profile distilled from ~3,100 of his real sent Slack messages (2022-2026): lowercase default, burst messages, ask-first, warm and zero-corporate, with register shifts for peers vs reports vs leadership vs announcements. Use when drafting, rewriting, or replying to Slack on his behalf.",
+      "description": "Write in Gabe's actual voice - Slack, email, comments, anything drafted on his behalf. Medium-independent voice DNA (ask-first, brief, warm, active, zero-corporate, honest hedges, no sign-offs) plus a deep-evidence Slack mechanics section distilled from ~3,100 of his real sent Slack messages (2022-2026), with register shifts for peers vs reports vs leadership vs broadcast.",
       "category": "productivity",
-      "keywords": ["voice", "writing", "slack", "style", "tone", "ghostwriting", "register"]
+      "keywords": ["voice", "writing", "slack", "email", "style", "tone", "ghostwriting", "register"]
     },
     {
       "name": "skill-improver",
