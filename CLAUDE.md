@@ -1,5 +1,5 @@
-# claude-skills - CLAUDE.md
-> Dev checkout of the `gkmur/claude-skills` plugin marketplace. Each subdirectory of `plugins/` is a published skill (moodboard, pretext-typography, session-state, rubin, skill-improver). Edit here, push to GitHub, then run `/plugin update` in Claude Code to deploy.
+# skills - CLAUDE.md
+> Dev checkout of the `gkmur/skills` plugin marketplace (registered under marketplace name `gkmur`; renamed from `claude-skills` 2026-06-11). Each subdirectory of `plugins/` is a published skill (moodboard, pretext-typography, session-state, rubin, skill-improver). Edit here, push to GitHub, then run `/plugin update` in Claude Code to deploy.
 
 ## Commands
 No package.json. All operations are git + Claude plugin CLI.
