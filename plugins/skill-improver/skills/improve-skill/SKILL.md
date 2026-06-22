@@ -35,7 +35,7 @@ Reuse over reinvention: where a lens needs hard numbers, defer to
 
 The user gives a target skill. Resolve it to an absolute directory path
 containing `SKILL.md`. If they only name a skill (e.g. "improve capture"),
-locate it: check `~/projects/claude-skills/plugins/*/skills/*/`,
+locate it: check `~/projects/skills/plugins/*/skills/*/`,
 `~/.claude/skills/`, `~/.agents/skills/`, and installed plugin marketplaces.
 Confirm the resolved path with the user before proceeding if there's any
 ambiguity.

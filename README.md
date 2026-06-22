@@ -5,7 +5,7 @@ Gabriel Murray's personal Claude skills marketplace.
 ## Install
 
 ```sh
-claude plugin marketplace add gkmur/claude-skills
+claude plugin marketplace add gkmur/skills
 claude plugin install pretext-typography@gkmur
 claude plugin install moodboard@gkmur
 ```
