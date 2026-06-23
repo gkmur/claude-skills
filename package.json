@@ -1,0 +1,11 @@
+{
+  "name": "gkmur-skills",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Gabriel Murray's personal Claude skills marketplace",
+  "scripts": {
+    "dev-link": "node scripts/dev-link.mjs",
+    "release": "node scripts/release.mjs"
+  }
+}
