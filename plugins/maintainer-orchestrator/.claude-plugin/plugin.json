@@ -8,5 +8,5 @@
   },
   "license": "MIT",
   "keywords": ["orchestrator", "maintainer", "triage", "loop", "background-agents", "autonomous", "github", "repos", "steipete"],
-  "skills": ["./skills/orchestrate", "./skills/repo-triage"]
+  "skills": ["./skills/gabe-orchestrate", "./skills/gabe-repo-triage"]
 }

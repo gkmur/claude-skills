@@ -8,5 +8,5 @@
   },
   "license": "MIT",
   "keywords": ["session", "memory", "continuity", "state", "wrap-up", "handoff", "where-were-we"],
-  "skills": ["./skills/wrap-up"]
+  "skills": ["./skills/gabe-wrap-up"]
 }

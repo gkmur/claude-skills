@@ -8,5 +8,5 @@
   },
   "license": "MIT",
   "keywords": ["skill", "meta", "improve", "eval", "trigger", "adversarial", "workflow", "grill-me", "skill-creator"],
-  "skills": ["./skills/improve-skill"]
+  "skills": ["./skills/gabe-improve-skill"]
 }

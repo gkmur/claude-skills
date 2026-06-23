@@ -1,5 +1,5 @@
 ---
-name: pretext-typography
+name: gabe-pretext-typography
 description: >
   Apply @chenglou/pretext when you need text measurement WITHOUT DOM reflow —
   predicting heights for virtualized lists, streaming LLM token rendering,

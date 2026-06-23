@@ -1,5 +1,5 @@
 ---
-name: orchestrate
+name: gabe-orchestrate
 description: >
   Run the maintainer orchestrator: a single root session that wakes on a
   heartbeat, triages every personal repo, and directs one background worker
@@ -51,7 +51,7 @@ needs another repo touched, it reports back and you decide.
    `skillopt` microsoft fork). A repo is a candidate only when it has no live
    worker and you have not triaged it this cycle.
 
-4. **Triage the queue.** For each candidate repo, invoke the `repo-triage`
+4. **Triage the queue.** For each candidate repo, invoke the `gabe-repo-triage`
    skill (issues, PRs, CI, unreleased changelog). It returns items sorted into
    autonomous / needs-Gabe / defer-close, URL-first.
 

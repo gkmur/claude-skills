@@ -1,5 +1,5 @@
 ---
-name: moodboard
+name: gabe-moodboard
 description: Turn Gabe's saved visual taste into a portable design brief before any design or build work. Semantic-searches his Pinterest mirror (saved pins/boards indexed in the wiki MCP), surfaces 3 cross-board candidates as thumbnail previews, lets him pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) and writes MOODBOARD.md - a tool-agnostic brief. Use when the user is kicking off UI/brand/landing/component/deck work and wants the aesthetic grounded in his own saved references instead of generic AI defaults, OR asks to pull inspiration from his boards/Pinterest, OR asks what his taste says about a direction. Trigger phrases - "moodboard for X", "pull moodboard inspo", "find inspo for X", "pull inspo from my boards", "inspiration from my Pinterest", "what does my taste say about X", "design brief grounded in my saved taste", "ground the aesthetic in stuff I've saved". NOT for - generating/comparing design variants (use design-shotgun), proposing a color/type system or full design system (use design-consultation), critiquing or reviewing an existing design (use critique/design-review), or generating brand-guidelines images (use brandkit). This produces the brief those tools consume; it does not design, generate, or review.
 allowed-tools:
   - Bash

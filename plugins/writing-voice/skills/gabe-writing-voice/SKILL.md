@@ -1,5 +1,5 @@
 ---
-name: writing-voice
+name: gabe-writing-voice
 description: >
   Write in Gabe's actual voice. Use whenever drafting, rewriting, or replying to
   anything on his behalf - Slack messages, emails, comments, announcements, status

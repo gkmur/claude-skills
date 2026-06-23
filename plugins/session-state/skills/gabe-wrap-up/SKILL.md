@@ -1,5 +1,5 @@
 ---
-name: wrap-up
+name: gabe-wrap-up
 description: >
   Wrap up the current session by writing/updating the repo's .claude/STATE.md
   whiteboard so the next session can answer "where were we?". Invoke when the

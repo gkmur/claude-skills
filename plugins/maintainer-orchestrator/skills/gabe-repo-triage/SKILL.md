@@ -1,10 +1,10 @@
 ---
-name: repo-triage
+name: gabe-repo-triage
 description: >
   Triage one repository's maintainer queue - open issues, PRs, CI status, and
   unreleased changelog - and sort every item into autonomous / needs-Gabe /
   defer-close, URL-first. Use when Gabe says "triage <repo>", "what's in my
-  queue", "review the PRs/issues on X", or when the orchestrate skill calls it
+  queue", "review the PRs/issues on X", or when the gabe-orchestrate skill calls it
   per repo. Read-only triage by default; only acts when told to work
   autonomously.
 ---

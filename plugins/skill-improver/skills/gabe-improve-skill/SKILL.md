@@ -1,5 +1,5 @@
 ---
-name: improve-skill
+name: gabe-improve-skill
 description: >
   Statistically improve an existing Claude skill that the user points you at.
   Fans out a dynamic multi-agent workflow across four lenses — eval-driven A/B,
