@@ -261,3 +261,4 @@ npm view @chenglou/pretext version
 Bumping versions: Pretext is pre-1.0. Read the CHANGELOG for breaking
 changes in `prepareWithSegments` / `layoutNextLine` signatures before
 upgrading. Run `npm run validate` to catch perf budget regressions.
+

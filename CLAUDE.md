@@ -36,3 +36,4 @@ npm run release -- <plugin...|--all> [--minor|--major]   # default: patch
 - Do not modify `rubin-workspace/` and commit it unless you know it maps to a published plugin change.
 
 <!-- written at be7fcb6, 2026-06-10 -->
+

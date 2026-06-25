@@ -206,3 +206,4 @@ Closers:
 
 The constants across all four years: ask-first, no sign-off ever, active voice,
 warmth through exclamation, "also"-chaining, brevity.
+

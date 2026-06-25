@@ -127,3 +127,4 @@ an ask, apology stacking, or "please let me know if you have any questions"
 
 Full evidence-backed Slack profile with frequency ratings and era evolution:
 `references/slack-patterns.md`.
+

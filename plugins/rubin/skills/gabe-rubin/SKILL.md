@@ -128,3 +128,4 @@ but never fabricate the mechanism from feel.
 
 For the deeper why, source quotes, and the full boundary rationale, see
 `references/method.md`.
+

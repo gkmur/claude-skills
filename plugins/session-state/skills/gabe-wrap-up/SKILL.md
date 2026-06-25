@@ -81,3 +81,4 @@ Give the user a tight summary of where things stand and the top 1-3 things to pi
 
 - Reading is automatic: `~/.claude/hooks/session-state-load.sh` injects STATE.md at every SessionStart, so next session "where were we?" is already answered. This skill only writes.
 - For full back-and-forth recall, the user can run `claude --resume`. For durable knowledge, `qmd` searches `~/wiki`.
+

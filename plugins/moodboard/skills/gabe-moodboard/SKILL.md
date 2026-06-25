@@ -146,3 +146,4 @@ The failure points that quietly wreck a brief. Add to this list whenever one bit
 
 - **Image->image mode.** `mcp__wiki__search_by_image` / `query` `cross_modal: "image"` exist, but the mirror's pin images are not multimodally indexed yet on gbrain (queries fall back to text). Once the mini runs a multimodal embed pass (Voyage-multimodal class, no modality gap), add a mode that seeds from a reference screenshot/URL and finds visually-similar pins, then extracts DNA from those. That makes the skill work from a visual seed, not just a text vibe.
 - **Search-as-code extraction (partially shipped).** Palette is now scripted (`scripts/build-palette.mjs`). Still to do: `classify-type` and `score-motion` primitives the model composes per board - a type-heavy board gets different extraction than a color-first one. (These two are subjective inference, so they may stay model-side rather than become deterministic scripts.)
+

@@ -121,3 +121,4 @@ cp -r /tmp/skill-improver-snapshot/<skill-name>/. <skill-path>/
 - Keep proposals lean. A skill that returns zero findings is a valid, good
   outcome — better than a padded changelist.
 - See `references/harness.md` for wiring into skill-creator's eval scripts.
+

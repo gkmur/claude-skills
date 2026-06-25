@@ -27,3 +27,4 @@ Local-only: requires the Pinterest shadow and qmd MCP server.
 ## License
 
 MIT
+

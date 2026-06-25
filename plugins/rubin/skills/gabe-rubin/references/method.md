@@ -109,3 +109,4 @@ more Rubin-speak.
 - "Inspiration comes first. You come next. The audience comes last."
 - "Your desire to create must be greater than your fear. Accept the self-doubt as part of the process rather than trying to eliminate it."
 - Kahneman & Klein (the boundary condition): "Skilled intuition requires adequate valid cues and the opportunity to learn them; it is unreliable when the environment is low-validity or feedback is missing."
+
