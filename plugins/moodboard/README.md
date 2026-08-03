@@ -2,11 +2,10 @@
 
 Your saved visual taste, as a creative mind your AI can draw on.
 
-You have folders and boards full of images that feel right. This skill turns them
-into something your AI can actually use: it studies your library once, writes down
-what your taste is (real hexes, materials, composition habits, what you never save),
-and then applies it to whatever you're building - a UI, a brand, a deck, an image
-prompt.
+Point it at the folders and boards of images you have already saved. It studies the
+library once and writes down what your taste is - real hexes, materials, composition
+habits, what you never save - then applies that to whatever you are building: a UI,
+a brand, a deck, an image prompt.
 
 ## Process
 
@@ -21,7 +20,7 @@ your ask ("moodboard for X")
 
 ## The dial
 
-You never configure anything - strictness comes from how you phrase the ask:
+Strictness comes from how you phrase the ask. There is nothing to configure.
 
 | You say | It does |
 |---|---|
@@ -33,8 +32,8 @@ Say "stricter", "looser", or "not that one" at any point to move it.
 
 ## The lenses
 
-A palette bot sees colors. This reads an image the way an art historian would -
-eight questions, each producing a concrete design decision:
+Each driving image is read the way an art historian reads a work - eight questions,
+each producing a design decision rather than a description:
 
 | Lens | Asks the image | Example answer |
 |---|---|---|
@@ -56,16 +55,16 @@ Each answer can then be applied at four levels of literalness:
 | abstract | keep only the rule | "worn beats pristine" -> allow rough edges everywhere |
 | invert | do the opposite, on purpose | reference is cluttered -> go stark, and say why |
 
-That's why one image can feed many different builds: a Raf bomber photo gives a
-landing page its negative space, a deck its photography style, a physical product
-its material honesty. The attributes transfer; the artifact doesn't.
+One image therefore feeds many different builds: a Raf bomber photo gives a landing
+page its negative space, a deck its photography style, a physical product its
+material honesty. The attributes transfer; the artifact does not.
 
 ## Output
 
-Mid-build, it just applies the influence - no files. Ask for a brief and it writes
-`MOODBOARD.md`: the driving references (with links), the design DNA, and a W3C
+During a build, the influence lands directly in the work. Ask for a brief and it
+writes `MOODBOARD.md`: the driving references with links, the design DNA, and a W3C
 design-tokens block you can paste into Figma, CSS, or v0. Palette roles (bg /
-surface / ink / accent) are computed from your references' actual hexes - if your
+surface / ink / accent) are computed from your references' actual hexes. If your
 taste is monochrome, the palette is monochrome. It never invents a color.
 
 ## Install
