@@ -20,6 +20,7 @@ Give the AI Gabe's saved visual taste as a creative mind to draw on, then apply 
 - Boards: `~/wiki/pinterest/*.md` - one file per board. `index.md` is the routing table (board, pin count, topics). Each pin block carries a design-aware caption, thumb path, original path, pin URL, and dominant color hex.
 - Thumbs: `~/wiki/raw/assets/pinterest/thumbnails/<pin_id>.jpg`. When you need to actually look at a pin, read the thumb, never the original (~5x the tokens, same taste signal).
 - `references/taste-profile.md` - precompiled corpus-wide + per-board DNA. If its `synced` date is older than `index.md`'s, offer to regenerate it (instructions in its header).
+- `references/reading-lenses.md` - how to deeply read a single reference image (8 lenses -> transferable principles, 4 application moves). Read it whenever a specific pin is driving decisions.
 - The mirror rebuilds on the Mac mini and syncs via git. Boards missing or stale -> tell Gabe to pull the wiki; there is no local sync script.
 
 ## The dial
@@ -38,7 +39,8 @@ The reason the dial matters: strictness is his call, not a fixed pipeline. A str
 
 1. **Read the ask.** What's being built + dial level. Ask only if you can't infer both - one question max, then move.
 2. **Load the layer** per the table. For guided, pick boards by topic match in `index.md`; grep captions across boards when the ask is thematic ("warm wood", "harsh flash") rather than board-shaped.
-3. **Translate to the target medium** (next section).
+3. **Read the driving references.** When specific pins are carrying the direction (strict always, guided usually), read `references/reading-lenses.md` and extract principles through its lenses - not just a palette. One well-read image yields form, material, process, era, composition, function, mood, and refusals; each can transfer at a different literalness (quote / translate / abstract / invert).
+4. **Translate to the target medium** (next section).
 4. **Apply.**
    - Mid-build: fold the influence directly into the work - tokens, CSS, copy tone, image prompt, slide styling. No file unless he asks.
    - Brief requested ("write a moodboard", "give me a brief"): fill `assets/moodboard.template.md` -> `MOODBOARD.md` in cwd. For the palette run `node scripts/build-palette.mjs "#hex" "#hex" ...` with the driving pins' dominant hexes - it assigns bg/surface/ink/accent by luminance/chroma and emits a W3C token block. Render only the roles it returns; a monochrome selection legitimately lacks accent or surface. Never invent a hex.
