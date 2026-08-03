@@ -50,6 +50,13 @@
       "keywords": ["skill", "meta", "improve", "eval", "trigger", "adversarial", "workflow", "grill-me"]
     },
     {
+      "name": "adhd",
+      "source": "./plugins/adhd",
+      "description": "Shape output for an ADHD reader: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Invoke with /adhd; stays on until 'stop adhd mode'. Optional always-on SessionStart hook.",
+      "category": "productivity",
+      "keywords": ["adhd", "output-style", "productivity", "formatting", "focus"]
+    },
+    {
       "name": "maintainer-orchestrator",
       "source": "./plugins/maintainer-orchestrator",
       "description": "Run a single orchestrator session that wakes on a heartbeat, triages every personal repo's queue, and directs one background worker agent per repo to land safe work autonomously - escalating only decision-ready briefs to Gabe. Claude Code port of steipete's Codex maintainer loop: /loop 5m heartbeat, background agents as worker threads, SendMessage to steer, gh-driven triage, PR-only landings.",

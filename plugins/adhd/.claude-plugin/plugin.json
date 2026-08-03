@@ -1,0 +1,12 @@
+{
+  "name": "adhd",
+  "description": "Shape output for an ADHD reader: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Gabriel Murray",
+    "url": "https://gkmur.com"
+  },
+  "license": "MIT",
+  "keywords": ["adhd", "output-style", "productivity", "formatting", "focus"],
+  "skills": ["./skills/adhd"]
+}
