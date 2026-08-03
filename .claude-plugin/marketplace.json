@@ -17,9 +17,9 @@
     {
       "name": "moodboard",
       "source": "./plugins/moodboard",
-      "description": "Turn a curated Pinterest mirror into a portable design brief. Curates 3 cross-board pin candidates with thumbnail previews, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) into a tool-agnostic MOODBOARD.md (with W3C-shaped tokens) as input for design-consultation, design-shotgun, frontend builders, or image-gen. Local-only: depends on ~/wiki/pinterest/ and the wiki MCP.",
+      "description": "Your saved visual taste, as a creative mind your AI can draw on. Point it at any reference library (folders of images, a Pinterest mirror, screenshots) - it compiles a reusable taste profile once, then applies your aesthetic to anything you build with an adjustable influence dial: strictly mirror one reference, channel a collection, or let your whole taste quietly season the work. No external services; everything runs on local files.",
       "category": "design",
-      "keywords": ["design", "moodboard", "pinterest", "inspiration", "design-brief", "taste", "visual-reference"]
+      "keywords": ["design", "moodboard", "taste", "inspiration", "design-brief", "visual-reference", "aesthetics", "design-tokens"]
     },
     {
       "name": "session-state",

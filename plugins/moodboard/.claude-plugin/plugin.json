@@ -1,12 +1,12 @@
 {
   "name": "moodboard",
-  "description": "Turn a curated Pinterest mirror into a portable design brief. Semantic-searches a wiki-MCP-indexed pin shadow across all boards, surfaces 3 candidates with thumbnail previews, lets you pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) and writes a tool-agnostic MOODBOARD.md (with W3C-shaped tokens) for design-consultation, design-shotgun, frontend builders, or image-gen. The brief is the durable artifact. Local-only - depends on ~/wiki/pinterest/ and the wiki MCP.",
-  "version": "0.2.0",
+  "description": "Your saved visual taste, as a creative mind your AI can draw on. Point it at any reference library (folders of images, a Pinterest mirror, screenshots) - it compiles a reusable taste profile once, then applies your aesthetic to anything you build with an adjustable influence dial: strictly mirror one reference, channel a collection, or let your whole taste quietly season the work.",
+  "version": "1.0.0",
   "author": {
     "name": "Gabriel Murray",
     "url": "https://gkmur.com"
   },
   "license": "MIT",
-  "keywords": ["design", "moodboard", "pinterest", "inspiration", "design-brief", "taste", "visual-reference"],
-  "skills": ["./skills/gabe-moodboard"]
+  "keywords": ["design", "moodboard", "taste", "inspiration", "design-brief", "visual-reference", "aesthetics", "design-tokens"],
+  "skills": ["./skills/moodboard"]
 }

@@ -2,7 +2,7 @@
 
 How to look at one saved image and extract more than a palette. Use whenever a
 specific reference is driving decisions: always at strict level, and at guided level
-for the pins that end up as drivers. Ambient work skips this - the taste profile
+for the references that end up as drivers. Ambient work skips this - the taste profile
 already did the reading.
 
 The motion is two-step: look through a lens, then end the look with a transferable

@@ -1,12 +1,12 @@
 # Moodboard - <project / feature name>
 
-Generated <date> from the Pinterest mirror at influence level <strict | guided | ambient>. The brief is the durable artifact; pins are the receipts.
+Generated <date> from the user's reference library at influence level <strict | guided | ambient>. The brief is the durable artifact; the references are the receipts.
 
 ## References
 
 <!-- one block per driving reference - as many or few as actually drove decisions -->
-### <board> - <one-word role, e.g. anchor / texture / type>
-- Pin: <url>
+### <collection> - <one-word role, e.g. anchor / texture / type>
+- Ref: <path or url>
 - Dominant: #hex
 - Why: <one line - what it contributes to this build>
 
