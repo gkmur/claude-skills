@@ -1,70 +1,39 @@
 # Moodboard - <project / feature name>
 
-Generated <date> from the Pinterest mirror. Brief is the durable artifact; cite pins as receipts.
+Generated <date> from the Pinterest mirror at influence level <strict | guided | ambient>. The brief is the durable artifact; pins are the receipts.
 
 ## References
 
-### 1. Anchor - <board>
+<!-- one block per driving reference - as many or few as actually drove decisions -->
+### <board> - <one-word role, e.g. anchor / texture / type>
 - Pin: <url>
-- Thumb: ~/wiki/raw/pinterest/.thumbs/<id>.jpg
-- Caption: <caption>
 - Dominant: #hex
-- Why: <one line>
-
-### 2. Composition - <board>
-- Pin: <url>
-- Thumb: ~/wiki/raw/pinterest/.thumbs/<id>.jpg
-- Caption: <caption>
-- Dominant: #hex
-- Why: <one line>
-
-### 3. Detail - <board>
-- Pin: <url>
-- Thumb: ~/wiki/raw/pinterest/.thumbs/<id>.jpg
-- Caption: <caption>
-- Dominant: #hex
-- Why: <one line>
+- Why: <one line - what it contributes to this build>
 
 ## Design DNA
 
-**Palette** (roles from build-palette.mjs)
+**Palette** <!-- roles from build-palette.mjs; include only roles it returned -->
 - bg: #hex
-- surface: #hex
 - ink: #hex
-- accent: #hex
 
-**Typography direction** - <1-2 sentences, model-inferred from captions; a direction, not specific fonts>
+**Typography direction** - <a direction, not a font pick>
 
-**Texture / materiality** - <1 sentence>
+**Texture / surface** - <one line>
 
-**Composition** - <1 sentence>
+**Composition** - <one line>
 
-**Motion** - <1-10> - <description>
+**Motion** - <one line, incl. restraint level>
 
 **Anti-patterns**
-- <ban 1>
-- <ban 2>
-- <ban 3>
+- <derived from the boards, not stock phrases>
 
 ## Tokens (portable)
 
-<!-- paste the `tokens` object from: node scripts/build-palette.mjs "#hex" "#hex" ... -->
+<!-- paste the `tokens` object from build-palette.mjs verbatim -->
 ```json
-{
-  "$schema": "https://design-tokens.github.io/community-group/format/",
-  "color": {
-    "bg":      { "$type": "color", "$value": "#hex" },
-    "surface": { "$type": "color", "$value": "#hex" },
-    "ink":     { "$type": "color", "$value": "#hex" },
-    "accent":  { "$type": "color", "$value": "#hex" }
-  }
-}
+{}
 ```
 
 ## Next step
 
-Hand this to one of:
-- `/design-consultation` - turn DNA into a full DESIGN.md
-- `/design-shotgun` - explore variants on top of this brief
-- a frontend build, or paste the Tokens block into v0 / Figma variables
-
+Feed this to the build directly, or to /design-consultation, /design-shotgun, v0, or Figma variables. Tool-agnostic on purpose.

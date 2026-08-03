@@ -1,149 +1,62 @@
 ---
 name: gabe-moodboard
-description: Turn Gabe's saved visual taste into a portable design brief before any design or build work. Semantic-searches his Pinterest mirror (saved pins/boards indexed in the wiki MCP), surfaces 3 cross-board candidates as thumbnail previews, lets him pick/reject/refine, then extracts design DNA (palette, type, texture, composition, motion, anti-patterns) and writes MOODBOARD.md - a tool-agnostic brief. Use when the user is kicking off UI/brand/landing/component/deck work and wants the aesthetic grounded in his own saved references instead of generic AI defaults, OR asks to pull inspiration from his boards/Pinterest, OR asks what his taste says about a direction. Trigger phrases - "moodboard for X", "pull moodboard inspo", "find inspo for X", "pull inspo from my boards", "inspiration from my Pinterest", "what does my taste say about X", "design brief grounded in my saved taste", "ground the aesthetic in stuff I've saved". NOT for - generating/comparing design variants (use design-shotgun), proposing a color/type system or full design system (use design-consultation), critiquing or reviewing an existing design (use critique/design-review), or generating brand-guidelines images (use brandkit). This produces the brief those tools consume; it does not design, generate, or review.
+description: Apply Gabe's saved visual taste (his local Pinterest mirror) as creative influence on whatever is being designed or built - a UI, landing page, component, brand, deck, or image prompt. Has an adjustable influence dial, from strictly mirroring named pins/boards to loosely seasoning a build with his whole taste profile. Use whenever Gabe mentions his boards, his Pinterest, his taste, or pulling inspo/inspiration/references from his saved stuff; asks for a moodboard or a design brief grounded in his taste; or wants the aesthetic of anything he's building to feel like him instead of generic AI defaults - including mid-build ("make this feel more like my editorials board"). NOT for critiquing existing designs or generating brand-guideline imagery.
 allowed-tools:
   - Bash
   - Read
   - Write
   - Edit
   - Glob
+  - Grep
   - AskUserQuestion
-  - mcp__wiki__query
-  - mcp__wiki__search
 ---
 
 # Moodboard
 
-Slots in **before** design-consultation / design-shotgun / a frontend build. Output is a curated, portable brief - not code.
+Give the AI Gabe's saved visual taste as a creative mind to draw on, then apply it to whatever is being built. This is not a curation ritual: don't make him pick pins, answer questionnaires, or approve rounds of candidates. Infer the influence level, load the right layer, translate it to the target medium, apply it.
 
-**Why this exists (the bet):** taste in your head is perishable; taste captured into a portable, machine-readable brief is a compounding asset. This skill is the compiler: curated corpus -> design DNA -> a brief that travels to any AI tool. MOODBOARD.md is the noun you own; each generation is the disposable verb.
+## The mirror (all local, no index/MCP needed)
 
-## Files in this skill
+- Boards: `~/wiki/pinterest/*.md` - one file per board. `index.md` is the routing table (board, pin count, topics). Each pin block carries a design-aware caption, thumb path, original path, pin URL, and dominant color hex.
+- Thumbs: `~/wiki/raw/assets/pinterest/thumbnails/<pin_id>.jpg`. When you need to actually look at a pin, read the thumb, never the original (~5x the tokens, same taste signal).
+- `references/taste-profile.md` - precompiled corpus-wide + per-board DNA. If its `synced` date is older than `index.md`'s, offer to regenerate it (instructions in its header).
+- The mirror rebuilds on the Mac mini and syncs via git. Boards missing or stale -> tell Gabe to pull the wiki; there is no local sync script.
 
-- `SKILL.md` - this spine.
-- `config.json` - Pinterest-mirror paths + query defaults. Read it first; don't hardcode paths.
-- `scripts/build-palette.mjs` - turns the selected pins' dominant hexes into a roled palette + W3C token block (step 5).
-- `assets/moodboard.template.md` - the MOODBOARD.md shape to copy (step 6).
+## The dial
 
-## Preconditions
+Infer the level from how Gabe phrases the ask; default to **guided**. He can move it mid-flight ("stricter", "looser", "not that board", "just use these two pins").
 
-- Read `config.json` for `pinterest_dir`, `thumbs_dir`, `board_glob`, `score_floor`, `query_limit`. Use those values below instead of literal paths, so a moved mirror is a one-file edit.
-- Pinterest shadow lives at `config.pinterest_dir` (default `~/wiki/pinterest/*.md`), indexed into the wiki MCP (`source_id: "wiki"`). Pins surface with slugs like `pinterest/<board>`.
-- Thumbs at `config.thumbs_dir` (default `~/wiki/raw/pinterest/.thumbs/<pin_id>.jpg`) - read these, NEVER the originals (~80% fewer tokens, same taste signal).
-- Each pin block in a result carries: design-aware caption, thumb path, original image path, pin URL, dominant color hex.
+| Level | He says things like | Load | References act as |
+|---|---|---|---|
+| **strict** | "use this pin / this board exactly", names specific pins | The named pin blocks + their thumbs | Hard constraints: palette from those exact hexes, composition and texture mirrored closely |
+| **guided** (default) | "moodboard for X", "make it feel like my editorials board", "pull inspo for this" | 1-3 relevant boards (route via `index.md` topics), read their files; thumbs only for the few pins that end up driving decisions | Strong direction: distill DNA fresh from those boards, cite the driving pins |
+| **ambient** | "use my taste", "my boards", anything broad | `references/taste-profile.md` only | Seasoning: build freely, break ties toward the profile |
 
-If the mirror is empty or missing on this machine: it is built/refreshed on the **Mac mini** and synced here via git. Tell the user to pull the wiki (or run the sync on the mini) - do NOT point at a local sync script; it does not exist on the MacBook. Verify with:
+The reason the dial matters: strictness is his call, not a fixed pipeline. A strict ask deserves fidelity to specific images; a broad ask deserves zero friction and no fake precision.
 
-```bash
-ls "$(node -e 'process.stdout.write(require("./config.json").board_glob.replace(/^~/, process.env.HOME))')" 2>/dev/null | wc -l   # expect ~20 board files
-```
+## Flow
 
-## Step 0 - Context check
+1. **Read the ask.** What's being built + dial level. Ask only if you can't infer both - one question max, then move.
+2. **Load the layer** per the table. For guided, pick boards by topic match in `index.md`; grep captions across boards when the ask is thematic ("warm wood", "harsh flash") rather than board-shaped.
+3. **Translate to the target medium** (next section).
+4. **Apply.**
+   - Mid-build: fold the influence directly into the work - tokens, CSS, copy tone, image prompt, slide styling. No file unless he asks.
+   - Brief requested ("write a moodboard", "give me a brief"): fill `assets/moodboard.template.md` -> `MOODBOARD.md` in cwd. For the palette run `node scripts/build-palette.mjs "#hex" "#hex" ...` with the driving pins' dominant hexes - it assigns bg/surface/ink/accent by luminance/chroma and emits a W3C token block. Render only the roles it returns; a monochrome selection legitimately lacks accent or surface. Never invent a hex.
 
-```bash
-ls MOODBOARD.md DESIGN.md design-tokens.json 2>/dev/null
-```
+## Translating mediums
 
-If `MOODBOARD.md` exists, AskUserQuestion: extend / replace / cancel.
-If `DESIGN.md` or `design-tokens.json` exists, note it - DNA extraction should complement, not contradict the existing system.
+The boards are fashion, interiors, prints, and posters; the target usually isn't. Transfer the **attribute**, not the artifact - a Raf editorial doesn't put a model on the landing page, it lends its contrast curve and severity.
 
-## Step 1 - Intent capture
+- **Palette + contrast** -> direct: dominant hexes and light/dark balance carry over as-is.
+- **Material and texture** (concrete, linen, film grain, raw metal) -> surface treatment: backgrounds, grain overlays, border weight, shadow character.
+- **Silhouette and garment structure** -> layout: drape = overlap and looseness, tailoring = grid discipline, asymmetric cuts = asymmetric composition.
+- **Styling density** (layered fits vs stark minimalism) -> spacing and negative space.
+- **Photographic mood** (harsh flash vs soft daylight, candid vs staged) -> contrast curve, image treatment, motion feel (harsh = abrupt/none, soft = restrained ease).
+- **Era + subculture signal** (archive 90s, Swiss, Dieter Rams) -> typography direction: editorial serif, brutalist mono, geometric sans. A direction, not a font pick.
+- **What the references never do** -> anti-patterns. Derive from the actual boards (e.g. nothing there has gradient meshes or rounded-friendly SaaS chrome); don't recite stock bans.
 
-Skip if the user's invocation already gives both target and vibe ("moodboard for a brutalist landing page" = enough). Otherwise one AskUserQuestion with up to 2 sub-questions:
+## Honesty
 
-1. **What are you building?** (component, page, full product, brand, deck)
-2. **Vibe direction?** - draw from the *full* taste spectrum, not just interiors. The mirror spans interiors/home, fashion + archive editorials, graphic/poster/portfolio design, prints, objects, lighting. Offer a spread like:
-   - Editorial / archive / minimal (Raf-era, Swiss, monochrome)
-   - Brutalist / raw / industrial (concrete, black metal, asymmetric)
-   - Warm / organic / tactile (japandi, wood, linen, soft neutrals)
-   - Dark-tech / cinematic / monospaced
-   - Graphic / poster / high-contrast type
-   - Other (free text)
-
-## Step 2 - Query (real wiki MCP interface)
-
-Use `mcp__wiki__query`. Do NOT cross-gate by board - let semantic score rank across all boards (off-domain boards like anime/tattoos naturally score low for design queries).
-
-- `query`: one rich *visual descriptor* string - combine vibe + material/texture + composition + mood. Not keywords.
-- `limit`: `config.query_limit` (default 8)
-- Leave `cross_modal` default (text). True image->image is not indexed yet (see Roadmap).
-- Treat `score >= config.score_floor` (default ~0.5) as the floor; keep only results whose `slug` starts with `pinterest/`.
-
-Example for "brutalist landing page":
-```
-query: "brutalist concrete interior architecture, black metal, warm wood, asymmetric composition, raw materials, editorial photography, stark high-contrast"
-limit: 8
-```
-
-Results come back as **whole-board chunks with multiple pins inlined** in `chunk_text`. Each pin block already has caption + thumb path + pin URL + dominant color - parse them straight out. No separate `get` call is needed.
-
-For lexical/exact-tag lookups (a named designer, a specific object), `mcp__wiki__search` is the keyword path.
-
-## Step 3 - Curate to 3
-
-From the parsed pins (aim for 6-8 candidates spanning >=2 boards):
-
-1. Read the thumb (`Read` on `~/wiki/raw/pinterest/.thumbs/<id>.jpg`) for the top ~6 only.
-2. Pick the 3 strongest - diversity matters, no near-duplicates, prefer cross-board:
-   - **Anchor** - sets the dominant mood/palette
-   - **Composition** - informs layout / structure / negative space
-   - **Detail** - texture, type treatment, or micro-element
-
-## Step 4 - Present + curate (interactive - the point)
-
-AskUserQuestion with 4 options, `multiSelect: true`. Each pin option uses `preview` showing:
-- Caption (from the parsed block)
-- Source board + pin URL
-- Dominant color hex
-- Role + one-line why (anchor / composition / detail)
-
-4th option: **"Show me different ones"** - re-query with a tweak (ask what to adjust: more X, less Y, a specific board). Loop up to 3 times before suggesting the user refine the vibe input. Track pins already shown or rejected and exclude them from re-presentation; if a re-query surfaces nothing the user hasn't already seen, stop early and say the corpus has no further matches for this vibe rather than re-showing the same set. Gabe is the taste-maker; never auto-finalize the picks.
-
-## Step 5 - Extract DNA
-
-From the selected pins. Deterministic parts run as code; subjective parts stay model-inferred (do not fake them with a script).
-
-- **Palette (scripted)** - collect the dominant hex of each selected pin (one hex per selected pin, typically 3; already in the parsed block, read a thumb only if a pin lacks one), then run the script to get roled colors + the portable token block:
-  ```bash
-  node scripts/build-palette.mjs "#hex1" "#hex2" "#hex3"
-  ```
-  It assigns bg/surface/ink/accent by luminance + chroma and emits the W3C `tokens` object - paste both straight into the brief. Don't hand-roll the role assignment or the JSON. The script returns only the roles the colors support - a monochrome board yields no `accent` (and sometimes no `surface`). That is correct: render only the roles it returned, never a placeholder or an invented hex. Sanity-check against the vibe too - if the brief asked for dark but `bg` came back light (or vice-versa), one outlier pin is skewing it: drop that hex and re-run, or swap the bg/ink roles. The script is mood-blind; you are not.
-- **Typographic feel** - inferred from caption keywords (editorial / monospaced / display serif / geometric sans). 1-2 *directions*, not specific fonts (that's design-consultation's job).
-- **Texture / materiality** - concrete, paper, glass, linen, raw metal, film grain.
-- **Composition** - symmetric/asymmetric, density, grid feel, negative space.
-- **Motion feel** - static / restrained / fluid / cinematic. Map to a 1-10 intensity.
-- **Anti-patterns** - what these references explicitly reject (e.g. "no gradient meshes", "no soft drop shadows", "no centered hero").
-
-## Step 6 - Write the brief (portable)
-
-Copy `assets/moodboard.template.md` and fill it in - write the result as `MOODBOARD.md` to cwd. The template is the canonical shape (References -> Design DNA -> Tokens -> Next step); editing it changes every future brief. Keep it tool-agnostic so it feeds Claude, /design-consultation, v0/Lovable, or an image-gen --sref prompt equally.
-
-- Drop the `roles` and `tokens` from `build-palette.mjs` (step 5) straight into the Palette and Tokens sections - the machine-readable W3C token block is what pipes into Figma/CSS without a conversion step. Render only the roles the script actually returned: if there's no `accent` or `surface`, remove that line from the Palette list and the matching key from the Tokens JSON. The brief must contain only data-derived colors, never a placeholder or invented hex.
-- Fill References from the 3 selected pins (anchor / composition / detail), Typography/Texture/Composition/Motion/Anti-patterns from the model-inferred DNA.
-
-## Step 7 - STOP
-
-Report what was written and suggest the next skill. Do NOT auto-invoke it.
-
-## Gotchas
-
-The failure points that quietly wreck a brief. Add to this list whenever one bites.
-
-- **Never read original images - always the thumb.** Reading originals costs ~5x the tokens for the same taste signal. The thumb at `config.thumbs_dir` is enough to recognize taste; the original almost never is worth it.
-- **Don't invent fonts or hex values absent from the data.** Palette comes from the pins' dominant colors (via `build-palette.mjs`) + what the thumbs show. Type direction is descriptive, not prescriptive - inventing a specific font is design-consultation's job, not this skill's.
-- **Image->image isn't indexed yet.** `cross_modal: "image"` / `search_by_image` exist but the mirror's pins aren't multimodally embedded on gbrain - queries silently fall back to text. Don't promise visual-seed search; it returns text-ranked results (see Roadmap).
-- **Cross-gating by board kills recall.** Let semantic score rank across all boards; off-domain boards (anime, tattoos) naturally score low. Filtering to a board up front throws away cross-board picks, which are the best ones.
-- **If the vibe matches nothing, say so.** Suggest pinning references first. Don't fake it with off-brand picks - an honest "your boards don't cover this" beats a wrong brief.
-- **Too few distinct colors = monochrome board, not a bug.** If `build-palette.mjs` returns fewer than 3 roles (e.g. `bg == ink`, no `surface`/`accent`), the selected pins are too monochrome for a full palette. Either pick a pin with a contrasting accent, or note in the brief that the palette is intentionally monochrome and leave the missing roles unset - never duplicate a hex to fill a slot.
-- **Mirror missing != broken.** It's built on the Mac mini and synced via git. Tell the user to pull the wiki; there is no local sync script on the MacBook to point at.
-
-## Notes
-
-- **Cite pin URLs** - receipts. If a design ships well, it's traceable to the references that drove it.
-- **ASCII only, no emojis** in MOODBOARD.md.
-
-## Roadmap (not yet wired)
-
-- **Image->image mode.** `mcp__wiki__search_by_image` / `query` `cross_modal: "image"` exist, but the mirror's pin images are not multimodally indexed yet on gbrain (queries fall back to text). Once the mini runs a multimodal embed pass (Voyage-multimodal class, no modality gap), add a mode that seeds from a reference screenshot/URL and finds visually-similar pins, then extracts DNA from those. That makes the skill work from a visual seed, not just a text vibe.
-- **Search-as-code extraction (partially shipped).** Palette is now scripted (`scripts/build-palette.mjs`). Still to do: `classify-type` and `score-motion` primitives the model composes per board - a type-heavy board gets different extraction than a color-first one. (These two are subjective inference, so they may stay model-side rather than become deterministic scripts.)
-
+- If his taste genuinely doesn't cover the ask, say so and build without forcing off-brand references - an honest "your boards don't go there" beats a wrong vibe.
+- When specific pins drove decisions, cite their URLs - receipts, so a design that ships traces back to its references.
+- ASCII only, no emojis, in anything written to files.

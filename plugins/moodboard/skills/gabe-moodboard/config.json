@@ -1,9 +1,0 @@
-{
-  "_comment": "Paths the moodboard skill reads. Edit if the Pinterest mirror moves. If a path is missing on this machine the mirror lives on the Mac mini - pull the wiki repo, do not point at a local sync script (there isn't one on the MacBook).",
-  "pinterest_dir": "~/wiki/pinterest",
-  "board_glob": "~/wiki/pinterest/*.md",
-  "thumbs_dir": "~/wiki/raw/pinterest/.thumbs",
-  "wiki_source_id": "wiki",
-  "score_floor": 0.5,
-  "query_limit": 8
-}
