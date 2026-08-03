@@ -2,10 +2,11 @@
 
 Your saved visual taste, as a creative mind your AI can draw on.
 
-Point it at your reference library once - image folders, a Pinterest mirror,
-screenshots. It compiles a taste profile: your palettes (real hexes), materials,
-composition habits, era signals, anti-patterns. After that, anything you build
-can carry your aesthetic instead of generic AI defaults.
+You have folders and boards full of images that feel right. This skill turns them
+into something your AI can actually use: it studies your library once, writes down
+what your taste is (real hexes, materials, composition habits, what you never save),
+and then applies it to whatever you're building - a UI, a brand, a deck, an image
+prompt.
 
 ## Process
 
@@ -13,65 +14,59 @@ can carry your aesthetic instead of generic AI defaults.
 your ask ("moodboard for X")
   1. infer the dial       how strictly to apply your taste
   2. load the layer       one image / a collection / the whole profile
-  3. read the references  8 lenses -> transferable principles
-  4. translate            attribute crosses the medium gap
+  3. read the references  8 lenses -> design decisions
+  4. translate            fashion/interiors/art -> the thing you're building
   5. apply                straight into the build, or a portable MOODBOARD.md
 ```
 
 ## The dial
 
-Strictness is inferred from how you phrase the ask:
+You never configure anything - strictness comes from how you phrase the ask:
 
-| You say | What happens |
+| You say | It does |
 |---|---|
-| "build this strictly off this image" | That reference is a hard constraint - exact palette, mirrored composition |
-| "moodboard for a portfolio site" | Reads your relevant collections, distills direction, cites references |
-| "just use my taste" | Builds freely, breaking ties toward your profile |
+| "build this strictly off this image" | Treats that image as law: its exact palette, its composition |
+| "moodboard for a portfolio site" | Picks the 1-3 relevant collections, pulls a direction from them, tells you which images drove it |
+| "just use my taste" | Builds normally, but every judgment call goes your way |
 
-Adjust mid-flight: "stricter", "looser", "not that one".
+Say "stricter", "looser", or "not that one" at any point to move it.
 
 ## The lenses
 
-Each driving image gets read like an art historian would - eight questions, each
-ending in a principle that survives leaving the image:
+A palette bot sees colors. This reads an image the way an art historian would -
+eight questions, each producing a concrete design decision:
 
-| Lens | The question | Yields |
+| Lens | Asks the image | Example answer |
 |---|---|---|
-| Form | Dominant lines, shapes, values? | geometry, contrast curve, visual weight |
-| Material | What is it made of, what did that force? | surface treatment, texture, imperfection budget |
-| Process | Hand or machine, fast or slow? | edge quality, tolerance for irregularity |
-| Era | When, where, reacting against what? | type direction, cultural register |
-| Composition | How does the eye move, where is the emptiness? | layout, hierarchy, spacing |
-| Function | What job did it originally do? | the equivalent job in your build |
-| Mood | Emotional temperature? | motion feel, copy tone |
-| Refusals | What does it conspicuously not do? | anti-patterns, derived not stock |
+| Form | What shapes and contrast dominate? | "one dark figure on an empty field" -> one hero element, lots of empty space |
+| Material | What is it made of? | worn nylon and sewn patches -> matte surfaces, one collage moment |
+| Process | How was it made? | woodblock printing with misaligned layers -> slightly offset color layers |
+| Era | What scene is it from, rejecting what? | 2003 Antwerp anti-fashion -> mono type, no friendly startup chrome |
+| Composition | Where does the eye go? Where is it empty? | huge concrete mass, one window -> dense block cut by a single bright CTA |
+| Function | What job did the object do? | a lamp diffuses light -> soft glow layers instead of drop shadows |
+| Mood | What's the emotional temperature? | austere but tender -> minimal motion, quiet copy |
+| Refusals | What would this image never do? | Rams audio wall: zero ornament -> strip every decorative element |
 
-Each extracted attribute then lands at a chosen literalness:
+Each answer can then be applied at four levels of literalness:
 
-- **quote** - lift it directly (the exact hex, the grid ratio)
-- **translate** - carry it across mediums (drape -> overlapping layout)
-- **abstract** - keep only the principle ("worn beats pristine"), re-derive natively
-- **invert** - use the reference as a foil, on purpose
-
-## What one reference does to a build
-
-| Reference | Lens read | Effect on a landing page |
+| Move | Meaning | Example |
 |---|---|---|
-| Raf Simons 2003 bomber, lone figure in an empty field | form: one subject vs emptiness | one hero element, huge negative space |
-| Same bomber - surplus nylon, sewn-on patches | material: reworked, worn | flat matte surfaces, one collage moment |
-| Noguchi paper lantern | material: light through washi | translucent layers, soft glow instead of drop shadows |
-| Braun/Rams wall audio | refusals: no ornament anywhere | strip chrome; controls only where functions exist |
-| Ukiyo-e woodblock print | process: layered registration | slightly offset color layers, visible "printing" |
-| Brutalist concrete interior | composition: mass + one window | dense content block cut by a single bright CTA |
+| quote | copy it exactly | use the reference's actual hexes |
+| translate | same idea, new medium | garment drape -> overlapping layout |
+| abstract | keep only the rule | "worn beats pristine" -> allow rough edges everywhere |
+| invert | do the opposite, on purpose | reference is cluttered -> go stark, and say why |
 
-Same references feeding a deck or a physical product produce different mixes -
-attributes transfer, artifacts don't.
+That's why one image can feed many different builds: a Raf bomber photo gives a
+landing page its negative space, a deck its photography style, a physical product
+its material honesty. The attributes transfer; the artifact doesn't.
 
 ## Output
 
-Ask for a brief and it writes `MOODBOARD.md`: references with receipts, design DNA,
-and a W3C design-tokens block for Figma/CSS/v0. Palette roles are computed from your
-references' hexes by luminance/chroma - never invented.
+Mid-build, it just applies the influence - no files. Ask for a brief and it writes
+`MOODBOARD.md`: the driving references (with links), the design DNA, and a W3C
+design-tokens block you can paste into Figma, CSS, or v0. Palette roles (bg /
+surface / ink / accent) are computed from your references' actual hexes - if your
+taste is monochrome, the palette is monochrome. It never invents a color.
 
 ## Install
 
@@ -80,4 +75,5 @@ references' hexes by luminance/chroma - never invented.
 /plugin install moodboard@gkmur
 ```
 
-Setup runs on first use. Local files only - no services, no APIs, no dependencies.
+On first use it asks where your references live, then compiles your taste profile
+(slow once, instant after). Local files only - no services, no APIs, no dependencies.
