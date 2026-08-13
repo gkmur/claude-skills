@@ -8,60 +8,50 @@
   },
   "plugins": [
     {
-      "name": "pretext-typography",
-      "source": "./plugins/pretext-typography",
-      "description": "Advanced web typography via @chenglou/pretext — drop caps, pull quotes, image flow-around, canvas/SVG text. Use when typography needs to flow around obstacles or do anything CSS can't.",
-      "category": "design",
-      "keywords": ["typography", "design", "pretext", "drop-cap", "pull-quote", "text-layout"]
-    },
-    {
       "name": "moodboard",
       "source": "./plugins/moodboard",
       "description": "Your saved visual taste, as a creative mind your AI can draw on. Point it at any reference library (folders of images, a Pinterest mirror, screenshots) - it compiles a reusable taste profile once, then applies your aesthetic to anything you build with an adjustable influence dial: strictly mirror one reference, channel a collection, or let your whole taste quietly season the work. No external services; everything runs on local files.",
       "category": "design",
-      "keywords": ["design", "moodboard", "taste", "inspiration", "design-brief", "visual-reference", "aesthetics", "design-tokens"]
-    },
-    {
-      "name": "session-state",
-      "source": "./plugins/session-state",
-      "description": "Session continuity: the wrap-up skill writes a worktree-safe .claude/STATE.md whiteboard so the next session answers 'where were we?'. Pairs with the SessionStart auto-load hook.",
-      "category": "productivity",
-      "keywords": ["session", "memory", "continuity", "state", "wrap-up", "handoff"]
-    },
-    {
-      "name": "rubin",
-      "source": "./plugins/rubin",
-      "description": "Gabe's creative therapist and pattern-catcher - a warm, plain-spoken thinking partner that knows his stuff. Pulls from his wiki/second brain to connect what he's saying now to what he's already decided or kept circling, then suggests one concrete thing to try. Talks one turn at a time - reflect, name a thread, offer a move, stop. Stands down on anything with a checkable correct answer. Local-only: depends on the wiki MCP (gbrain on the Mac mini).",
-      "category": "creativity",
-      "keywords": ["creativity", "critique", "socratic", "taste", "ideation", "rick-rubin", "editing", "reduction"]
-    },
-    {
-      "name": "writing-voice",
-      "source": "./plugins/writing-voice",
-      "description": "Write in Gabe's actual voice - Slack, email, comments, anything drafted on his behalf. Medium-independent voice DNA (ask-first, brief, warm, active, zero-corporate, honest hedges, no sign-offs) plus a deep-evidence Slack mechanics section distilled from ~3,100 of his real sent Slack messages (2022-2026), with register shifts for peers vs reports vs leadership vs broadcast.",
-      "category": "productivity",
-      "keywords": ["voice", "writing", "slack", "email", "style", "tone", "ghostwriting", "register"]
-    },
-    {
-      "name": "skill-improver",
-      "source": "./plugins/skill-improver",
-      "description": "Statistically improve an existing Claude skill via a dynamic multi-agent workflow — eval-driven A/B, trigger tuning, adversarial weakness hunt, and clarity rewrite, each backed by repeated trials and adversarial verification — then gate every proposed change through grill-me before applying. Point it at a SKILL.md and it returns a ranked, evidence-backed change proposal.",
-      "category": "productivity",
-      "keywords": ["skill", "meta", "improve", "eval", "trigger", "adversarial", "workflow", "grill-me"]
+      "keywords": [
+        "design",
+        "moodboard",
+        "taste",
+        "inspiration",
+        "design-brief",
+        "visual-reference",
+        "aesthetics",
+        "design-tokens"
+      ]
     },
     {
       "name": "adhd",
       "source": "./plugins/adhd",
       "description": "Shape output for an ADHD reader: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Invoke with /adhd; stays on until 'stop adhd mode'. Optional always-on SessionStart hook.",
       "category": "productivity",
-      "keywords": ["adhd", "output-style", "productivity", "formatting", "focus"]
+      "keywords": [
+        "adhd",
+        "output-style",
+        "productivity",
+        "formatting",
+        "focus"
+      ]
     },
     {
       "name": "maintainer-orchestrator",
       "source": "./plugins/maintainer-orchestrator",
       "description": "Run a single orchestrator session that wakes on a heartbeat, triages every personal repo's queue, and directs one background worker agent per repo to land safe work autonomously - escalating only decision-ready briefs to Gabe. Claude Code port of steipete's Codex maintainer loop: /loop 5m heartbeat, background agents as worker threads, SendMessage to steer, gh-driven triage, PR-only landings.",
       "category": "productivity",
-      "keywords": ["orchestrator", "maintainer", "triage", "loop", "background-agents", "autonomous", "github", "repos", "steipete"]
+      "keywords": [
+        "orchestrator",
+        "maintainer",
+        "triage",
+        "loop",
+        "background-agents",
+        "autonomous",
+        "github",
+        "repos",
+        "steipete"
+      ]
     }
   ]
 }
