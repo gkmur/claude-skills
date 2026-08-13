@@ -1,12 +1,22 @@
 {
   "name": "maintainer-orchestrator",
-  "description": "Run a single orchestrator session that wakes on a heartbeat, triages every personal repo's queue, and directs one background worker agent per repo to land safe work autonomously - escalating only decision-ready briefs to Gabe. Claude Code port of steipete's Codex maintainer loop: /loop 5m heartbeat, background agents as worker threads, SendMessage to steer, gh-driven triage, PR-only landings. Use to keep a portfolio of repos maintained hands-off, or to triage a single repo's issues/PRs/CI.",
+  "description": "Triage a single repo's GitHub queue - issues, PRs and CI - and land safe work as PRs, escalating only decision-ready briefs to Gabe. Use to work through one repo's backlog hands-off. The multi-repo orchestrator loop was removed on 2026-08-13; this plugin is now the per-repo triage skill only.",
   "version": "0.1.0",
   "author": {
     "name": "Gabriel Murray",
     "url": "https://gkmur.com"
   },
   "license": "MIT",
-  "keywords": ["orchestrator", "maintainer", "triage", "loop", "background-agents", "autonomous", "github", "repos", "steipete"],
-  "skills": ["./skills/gabe-orchestrate", "./skills/gabe-repo-triage"]
+  "keywords": [
+    "maintainer",
+    "triage",
+    "github",
+    "repos",
+    "issues",
+    "prs",
+    "ci"
+  ],
+  "skills": [
+    "./skills/gabe-repo-triage"
+  ]
 }
