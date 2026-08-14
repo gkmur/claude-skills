@@ -1,5 +1,5 @@
 # skills - CLAUDE.md
-> Dev checkout of the `gkmur/skills` plugin marketplace (registered under marketplace name `gkmur`; renamed from `claude-skills` 2026-06-11). Each subdirectory of `plugins/` is a published plugin; its skill dirs are `gabe-`prefixed (`gabe-moodboard`, `gabe-pretext-typography`, `gabe-wrap-up`, `gabe-rubin`, `gabe-improve-skill`, `gabe-orchestrate`, `gabe-repo-triage`, `gabe-writing-voice`).
+> Dev checkout of the `gkmur/skills` plugin marketplace (registered under marketplace name `gkmur`; renamed from `claude-skills` 2026-06-11). Each subdirectory of `plugins/` is a published plugin. Three remain: `adhd`, `moodboard`, and `maintainer-orchestrator` (skill dir `gabe-repo-triage`).
 
 ## Two-path workflow
 Iterate fast locally; publish to the marketplace only when shipping to other people / the cloud.
@@ -19,21 +19,18 @@ npm run release -- <plugin...|--all> [--minor|--major]   # default: patch
 
 ## Architecture
 - `plugins/` - one subdirectory per plugin; each contains a `SKILL.md` (the skill prompt) and any supporting assets
+- `plugins/adhd/` - shapes output for an ADHD reader (next action first, numbered steps, restated state)
 - `plugins/moodboard/` - Pinterest-mirror moodboard tool (requires local wiki + qmd MCP)
-- `plugins/pretext-typography/` - advanced web typography via @chenglou/pretext
-- `plugins/session-state/` - session continuity wrap-up skill
-- `plugins/rubin/` - Rick Rubin Socratic critique-and-ideation
-- `plugins/skill-improver/` - dynamic multi-lens skill improver with grill gate
-- `rubin-workspace/` - scratch/working space for rubin plugin development; not published
+- `plugins/maintainer-orchestrator/` - per-repo GitHub queue triage (`gabe-repo-triage`)
+
+`pretext-typography`, `session-state`, `rubin` and `skill-improver` were deleted on
+2026-08-14 - never installed, never invoked. `rubin-workspace/` went with them.
 
 ## Gotchas
 - **Local dev does NOT need `/plugin update`.** After `npm run dev-link`, the plugin skills are file-based symlinks in `~/.claude/skills` and hot-reload on edit. `/plugin update` only matters for *consumers* (other people, or you on claude.ai/Cowork) after `npm run release`.
 - After `release`, the installed plugin still needs `/plugin marketplace update gkmur` + `/plugin update` to refresh — the registry reads the GitHub repo on update; symlinking the plugin cache does not work (it gets clobbered).
-- `gabe-moodboard` / `gabe-rubin` are local-only (need the wiki MCP / Pinterest shadow at `~/wiki/pinterest/`); they fail silently elsewhere — keep that in mind before listing them as broadly installable.
+- `moodboard` is local-only (needs the wiki MCP / Pinterest shadow at `~/wiki/pinterest/`); it fails silently elsewhere — keep that in mind before listing it as broadly installable.
 - There is no CI/CD. Skills are plain markdown prompt files; `scripts/` are the only code.
-
-## Out of bounds
-- Do not modify `rubin-workspace/` and commit it unless you know it maps to a published plugin change.
 
 <!-- written at be7fcb6, 2026-06-10 -->
 
