@@ -4,12 +4,15 @@
 // marketplace stays the *distribution* copy; this is the *iteration* copy.
 // Idempotent. Skips a name already linked to a different source (e.g. the wiki
 // copy of gabe-writing-voice).
-import { readdirSync, existsSync, lstatSync, readlinkSync, symlinkSync, unlinkSync } from 'node:fs';
+import { readdirSync, existsSync, lstatSync, mkdirSync, readlinkSync, symlinkSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PLUGINS = path.join(ROOT, 'plugins');
 const DEST = path.join(process.env.HOME, '.claude', 'skills');
+
+mkdirSync(DEST, { recursive: true });
 
 let linked = 0, kept = 0, skipped = [];
 for (const plugin of readdirSync(PLUGINS)) {
